@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Pannel;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Car\CreateCarRequest;
 use App\Models\Car;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 
 class CarController extends Controller
@@ -50,7 +51,22 @@ class CarController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $car = Car::findOrfail($id);
+        $allows = Gate::allows('update' , $car);
+        if ($allows) {
+            $car->fill($request->only([
+                'model' , 'kind' , 'category_id' , 'price' , 'lowest-down-payment' , 'brand_id'
+            ]));
+            $car->save();
+            return response()->json([
+                'message' => 'Car With ID:' . $id . ' Updated Successfully' ,
+                'data' => $car
+            ], 200);
+        } else {
+            return response()->json([
+                'message' => 'You dont have permission'
+            ]);
+        }
     }
 
     /**
