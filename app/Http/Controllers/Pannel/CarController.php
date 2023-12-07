@@ -39,7 +39,10 @@ class CarController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $article = Car::findOrfail($id);
+        return response()->json([
+            'data' => $article
+        ]);
     }
 
     /**
