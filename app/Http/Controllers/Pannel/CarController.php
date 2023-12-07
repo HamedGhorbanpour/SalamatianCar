@@ -3,24 +3,31 @@
 namespace App\Http\Controllers\Pannel;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CarRequest;
 use Illuminate\Http\Request;
+use App\Models\Car;
 
 class CarController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $search = $request->search;
+        $cars = Car::when($search, function ($query, $search) {
+            return $query->where('title', 'LIKE', "%{$search}%")
+                ->orWhere('text', 'LIKE', "%{$search}%");
+        })->paginate(10);
+        return response()->json($cars);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CarRequest $request)
     {
-        //
+       //
     }
 
     /**
