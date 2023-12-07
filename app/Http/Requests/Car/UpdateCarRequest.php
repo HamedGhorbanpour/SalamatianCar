@@ -22,7 +22,11 @@ class UpdateCarRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'model' => 'required|string|max:250' ,
+            'kind' => 'required|string|max:250' ,
+            'price' => 'required|decimal' ,
+            'lowest-down-payment' => 'required|decimal|max:100' ,
+            'brand_id' => 'required|integer|exists:brands,id'
         ];
     }
 }
