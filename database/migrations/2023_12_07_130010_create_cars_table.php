@@ -17,8 +17,10 @@ return new class extends Migration
             $table->string('kind');
             $table->decimal('price');
             $table->decimal('lowest_down_payment');
-            $table->foreignId('brand_id')->constrained('brands')->cascadeOnUpdate()->cascadeOnDelete();
-            $table->foreign('user_id')->constrained('users')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->unsignedBigInteger('brand_id');
+            $table->foreign('brand_id')->references('id')->on('brands')->onDelete('cascade');
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }
