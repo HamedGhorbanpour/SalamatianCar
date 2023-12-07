@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('kind');
             $table->integer('price');
             $table->decimal('lowest-down-payment');
-            $table->foreignId('brand_id')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreignId('brand_id')->constrained('brands')->cascadeOnUpdate()->cascadeOnDelete();
             $table->timestamps();
         });
     }

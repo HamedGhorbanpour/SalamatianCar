@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Brand extends Model
 {
     use HasFactory;
+
+    public function car()
+    {
+        return $this->belongsToMany(Car::class);
+    }
 }
