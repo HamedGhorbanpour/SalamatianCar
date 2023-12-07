@@ -17,9 +17,8 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-
 Route::namespace('App\Http\Controllers\Pannel')->group(function($router) {
-    // Category
+    // Cars
     Route::prefix('/cars')->controller('CarController')->group(function (){
         Route::get('/','index');
         Route::post('/','store')->middleware('auth:sanctum');
@@ -27,7 +26,7 @@ Route::namespace('App\Http\Controllers\Pannel')->group(function($router) {
         Route::patch('/{id}','update')->middleware('auth:sanctum');
         Route::delete('/{id}','destroy')->middleware('auth:sanctum');
     });
-    // Article
+    // Brands
     Route::prefix('/brands')->controller('BrandController')->group(function (){
         Route::get('/','index');
         Route::post('/','store')->middleware('auth:sanctum');
