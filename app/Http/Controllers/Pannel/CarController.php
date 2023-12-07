@@ -28,7 +28,6 @@ class CarController extends Controller
     public function store(CarRequest $request)
     {
         $car = Car::create($request->all() + ['user_id' => auth()->id()])->with('brands');
-
         return response()->json([
             'message' => 'New Car Created Successfully' ,
             'data' => $car
