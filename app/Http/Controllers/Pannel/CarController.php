@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\Pannel;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use App\Http\Requests\Car\UpdateCarRequest;
 use App\Http\Requests\Car\CreateCarRequest;
 use App\Models\Car;
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Http\Request;
 
 class CarController extends Controller
 {
@@ -17,8 +18,8 @@ class CarController extends Controller
     {
         $search = $request->search;
         $cars = Car::when($search, function ($query, $search) {
-            return $query->where('title', 'LIKE', "%{$search}%")
-                ->orWhere('text', 'LIKE', "%{$search}%");
+            return $query->where('model', 'LIKE', "%{$search}%")
+                ->orWhere('kind', 'LIKE', "%{$search}%");
         })->paginate(10);
         return response()->json($cars);
     }
@@ -49,13 +50,13 @@ class CarController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateCarRequest $request, string $id)
     {
         $car = Car::findOrfail($id);
         $allows = Gate::allows('update' , $car);
         if ($allows) {
             $car->fill($request->only([
-                'model' , 'kind' , 'category_id' , 'price' , 'lowest-down-payment' , 'brand_id'
+                'model' , 'kind' , 'price' , 'lowest-down-payment' , 'brand_id'
             ]));
             $car->save();
             return response()->json([
