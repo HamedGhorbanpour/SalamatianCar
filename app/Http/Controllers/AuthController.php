@@ -33,4 +33,11 @@ class AuthController extends Controller
             $api_token = $user->createToken('login_token')->plainTextToken;
             return response(['user' => auth()->user(), 'token' => $api_token]);}
     }
+    public function logout()
+    {
+        Auth::logout();
+        return response()->json([
+            'message' => 'User Successfully Logged Out'
+        ],200);
+    }
 }
