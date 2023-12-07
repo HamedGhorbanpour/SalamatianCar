@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Brand;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CarRequest extends FormRequest
+class CreateBrandRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,11 +22,7 @@ class CarRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'model' => 'required|string|max:250' ,
-            'kind' => 'required|string|max:250' ,
-            'price' => 'required|decimal' ,
-            'lowest-down-payment' => 'required|decimal|max:100' ,
-            'brand_id' => 'required|integer|'
+            'name' => 'required|max:250'
         ];
     }
 }

@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Pannel;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\CarRequest;
-use Illuminate\Http\Request;
+use App\Http\Requests\Car\CreateCarRequest;
 use App\Models\Car;
+use Illuminate\Http\Request;
 
 class CarController extends Controller
 {
@@ -25,7 +25,7 @@ class CarController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(CarRequest $request)
+    public function store(CreateCarRequest $request)
     {
         $car = Car::create($request->all() + ['user_id' => auth()->id()])->with('brands');
         return response()->json([
