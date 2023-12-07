@@ -22,17 +22,17 @@ Route::namespace('App\Http\Controllers\Pannel')->group(function($router) {
     Route::prefix('/cars')->controller('CarController')->group(function (){
         Route::get('/','index');
         Route::post('/','store')->middleware('auth:sanctum');
-        Route::get('/{id}','show');
-        Route::patch('/{id}','update')->middleware('auth:sanctum');
-        Route::delete('/{id}','destroy')->middleware('auth:sanctum');
+        Route::get('/{car}','show');
+        Route::patch('/{car}','update')->middleware('auth:sanctum');
+        Route::delete('/{car}','destroy')->middleware('auth:sanctum');
     });
     // Brands
     Route::prefix('/brands')->controller('BrandController')->group(function (){
         Route::get('/','index');
         Route::post('/','store')->middleware('auth:sanctum');
-        Route::get('/{id}','show');
-        Route::patch('/{id}','update')->middleware('auth:sanctum');
-        Route::delete('/{id}','destroy')->middleware('auth:sanctum');
+        Route::get('/{brand}','show');
+        Route::patch('/{brand}','update')->middleware('auth:sanctum');
+        Route::delete('/{brand}','destroy')->middleware('auth:sanctum');
     });
 });
 Route::namespace('App\Http\Controllers')->group(function ($router) {
@@ -40,7 +40,7 @@ Route::namespace('App\Http\Controllers')->group(function ($router) {
         Route::post('/register', 'register');
         Route::post('/login', 'login');
         Route::post('/logout', 'logout')->middleware('auth:sanctum');
-        Route::post('forgot-password' ,'forgot')->middleware('auth:sanctum');
-        Route::post('reset-password' ,'reset')->middleware('auth:sanctum');
+        Route::post('/forgot-password' ,'forgot')->middleware('auth:sanctum');
+        Route::post('/reset-password' ,'reset')->middleware('auth:sanctum');
     });
 });
