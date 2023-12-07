@@ -36,3 +36,12 @@ Route::namespace('App\Http\Controllers\Pannel')->group(function($router) {
         Route::delete('/{id}','destroy')->middleware('auth:sanctum');
     });
 });
+Route::namespace('App\Http\Controllers')->group(function ($router) {
+    Route::prefix('/auth')->controller('AuthController')->group(function (){
+        Route::post('/register', 'register');
+        Route::post('/login', 'login');
+        Route::post('/logout', 'logout')->middleware('auth:sanctum');
+        Route::post('forgot-password' ,'forgot')->middleware('auth:sanctum');
+        Route::post('reset-password' ,'reset')->middleware('auth:sanctum');
+    });
+});
