@@ -74,6 +74,17 @@ class CarController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $car = Car::findOrfail($id);
+        $allows = Gate::allows('delete' , $car);
+        if ($allows){
+            $car->delete();
+            return response()->json([
+                'message' => 'Car With ID:'.$id.' Deleted Successfully'
+            ],200);
+        }else{
+            return response()->json([
+                'message' => 'You dont have permission'
+            ],403);
+        }
     }
 }
