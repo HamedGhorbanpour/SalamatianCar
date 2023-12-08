@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Pannel;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\BrandResource;
 use Illuminate\Http\Request;
 use App\Models\Brand;
 use Illuminate\Support\Facades\Gate;
@@ -27,10 +28,10 @@ class BrandController extends Controller
      */
     public function store(CreateBrandRequest $request)
     {
-        $car = Brand::create($request->all() + ['user_id' => auth()->id()])->with('brands');
+        $brand = Brand::create($request->all() + ['user_id' => auth()->id()]);
         return response()->json([
-            'message' => 'New Car Created Successfully' ,
-            'data' => $car
+            'message' => 'New brand Created Successfully' ,
+            'data' => new BrandResource($brand)
         ]);
     }
 

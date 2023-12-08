@@ -31,13 +31,16 @@ class AuthController extends Controller
         else {
             $user = Auth::user();
             $api_token = $user->createToken('login_token')->plainTextToken;
-            return response(['user' => auth()->user(), 'token' => $api_token]);}
+            return response([
+                'message' => 'You successfully Logged In.',
+                'user' => auth()->user() ,
+                'token' => $api_token]);}
     }
-    public function logout()
+    public function logout(Request $request)
     {
-        Auth::logout();
+        $request->user()->currentAccessToken()->delete();
         return response()->json([
-            'message' => 'User Successfully Logged Out'
+            'message' => 'User Successfully Logged Out.'
         ],200);
     }
 }
