@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Pannel;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\CarResource;
 use Illuminate\Http\Request;
 use App\Http\Requests\Car\UpdateCarRequest;
 use App\Http\Requests\Car\CreateCarRequest;
@@ -29,10 +30,10 @@ class CarController extends Controller
      */
     public function store(CreateCarRequest $request)
     {
-        $car = Car::create($request->all() + ['user_id' => auth()->id()])->with('brands');
+        $car = Car::create($request->all() + ['user_id' => auth()->id()]);
         return response()->json([
             'message' => 'New Car Created Successfully' ,
-            'data' => $car
+            'data' => new CarResource($car)
         ]);
     }
 

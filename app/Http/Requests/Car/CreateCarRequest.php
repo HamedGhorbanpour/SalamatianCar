@@ -24,8 +24,8 @@ class CreateCarRequest extends FormRequest
         return [
             'model' => 'required|string|max:250' ,
             'kind' => 'required|string|max:250' ,
-            'price' => 'required|decimal' ,
-            'lowest-down-payment' => 'required|decimal|max:100' ,
+            'price' => 'required|numeric' ,
+            'lowest_down_payment' => 'required|numeric|between:0,100' ,
             'brand_id' => 'required|integer|exists:brands,id' ,
             'user_id' => 'integer|exists:users,id'
         ];
