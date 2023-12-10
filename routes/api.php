@@ -40,7 +40,7 @@ Route::namespace('App\Http\Controllers')->group(function ($router) {
         Route::post('/register', 'register');
         Route::post('/login', 'login');
         Route::post('/logout', 'logout')->middleware('auth:sanctum');
-        Route::post('/forgot-password' ,'forget')->middleware('auth:sanctum');
-        Route::post('/reset-password' ,'reset')->middleware('auth:sanctum');
+        Route::post('/forgot-password' ,'forget')->name('password.forgot');;
+        Route::patch('/reset-password' ,'reset')->name('password.reset');
     });
 });

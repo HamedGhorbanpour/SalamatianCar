@@ -6,6 +6,8 @@ use App\Http\Requests\Auth\ForgotPasswordRequest;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Http\Requests\Auth\ResetPasswordRequest;
+use App\Mail\LoginUserSuccessfully;
+use App\Mail\ResetPasswordSuccessfully;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -36,6 +38,7 @@ class AuthController extends Controller
         else {
             $user = Auth::user();
             $api_token = $user->createToken('login_token')->plainTextToken;
+            Mail::to($request->email)->send(new  LoginUserSuccessfully());
             return response([
                 'message' => 'You successfully Logged In.',
                 'user' => auth()->user() ,
@@ -53,7 +56,6 @@ class AuthController extends Controller
     public function forget(ForgotPasswordRequest $request)
     {
         $response = Password::sendResetLink($request->only('email'));
-
         return $response == Password::RESET_LINK_SENT
             ? response()->json(['message' => 'Reset password link sent to your email'], 200)
             : response()->json(['message' => 'Unable to send reset password link'], 400);
@@ -66,9 +68,12 @@ class AuthController extends Controller
                 'remember_token' => Str::random(60),
             ])->save();
         });
-
-        return $response == Password::PASSWORD_RESET
-            ? response()->json(['message' => 'Password reset successfully'], 200)
-            : response()->json(['message' => 'Unable to reset password'], 400);
+        if ($response == Password::PASSWORD_RESET) {
+            $user = User::where('email', $request->email)->first();
+            Mail::to($user->email)->send(new ResetPasswordSuccessfully());
+            return response()->json(['message' => 'Password reset successfully'], 200);
+        } else {
+            return response()->json(['message' => 'Unable to reset password'], 400);
+        }
     }
 }
