@@ -18,7 +18,7 @@ class CarController extends Controller
     public function index(Request $request)
     {
         $search = $request->search;
-        $cars = Car::when($search, function ($query, $search) {
+        $cars = Car::with('brand')->when($search, function ($query, $search) {
             return $query->where('model', 'LIKE', "%{$search}%")
                 ->orWhere('kind', 'LIKE', "%{$search}%");
         })->paginate(10);
