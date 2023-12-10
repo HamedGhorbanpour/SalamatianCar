@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('model');
             $table->string('kind');
             $table->bigInteger('price');
-            $table->decimal('lowest_down_payment');
+            $table->integer('lowest_down_payment');
             $table->unsignedBigInteger('brand_id');
             $table->foreign('brand_id')->references('id')->on('brands')->onDelete('cascade');
             $table->unsignedBigInteger('user_id');
