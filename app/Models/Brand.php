@@ -11,7 +11,7 @@ class Brand extends Model
     protected $guarded = ['id'];
     public function car()
     {
-        return $this->belongsToMany(Car::class);
+        return $this->hasMany(Car::class);
     }
     public function user()
     {

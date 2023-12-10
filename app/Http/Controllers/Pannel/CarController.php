@@ -42,7 +42,7 @@ class CarController extends Controller
      */
     public function show(string $id)
     {
-        $article = Car::findOrfail($id);
+        $article = Car::with('brand')->findOrfail($id);
         return response()->json([
             'data' => $article
         ]);
