@@ -18,8 +18,9 @@ class BrandController extends Controller
     public function index(Request $request)
     {
         $search = $request->search;
+        $perPage = $request->has('perPage') ? $request->perPage : 15;
         $cars = Brand::when($search, function ($query, $search) {
-            return $query->where('name', 'LIKE', "%{$search}%");})->paginate(10);
+            return $query->where('name', 'LIKE', "%{$search}%");})->paginate($perPage);
         return response()->json($cars);
     }
 

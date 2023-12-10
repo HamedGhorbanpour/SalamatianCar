@@ -18,10 +18,11 @@ class CarController extends Controller
     public function index(Request $request)
     {
         $search = $request->search;
+        $perPage = $request->has('perPage') ? $request->perPage : 15;
         $cars = Car::with('brand')->when($search, function ($query, $search) {
             return $query->where('model', 'LIKE', "%{$search}%")
                 ->orWhere('kind', 'LIKE', "%{$search}%");
-        })->paginate(10);
+        })->paginate($perPage);
         return response()->json($cars);
     }
 
