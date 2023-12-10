@@ -2,12 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Auth\ForgotPasswordRequest;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
+use App\Http\Requests\Auth\ResetPasswordRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\Mail;
 
 class AuthController extends Controller
 {
@@ -20,7 +25,7 @@ class AuthController extends Controller
         $token = $user->createToken('register_token')->plainTextToken;
         return response([
             'user' => $user ,
-            'token' => $token
+            'token' => $token ,
         ]);
     }
     public function login(LoginRequest $request)
@@ -34,7 +39,9 @@ class AuthController extends Controller
             return response([
                 'message' => 'You successfully Logged In.',
                 'user' => auth()->user() ,
-                'token' => $api_token]);}
+                'token' => $api_token
+            ]);
+        }
     }
     public function logout(Request $request)
     {
@@ -42,5 +49,26 @@ class AuthController extends Controller
         return response()->json([
             'message' => 'User Successfully Logged Out.'
         ],200);
+    }
+    public function forget(ForgotPasswordRequest $request)
+    {
+        $response = Password::sendResetLink($request->only('email'));
+
+        return $response == Password::RESET_LINK_SENT
+            ? response()->json(['message' => 'Reset password link sent to your email'], 200)
+            : response()->json(['message' => 'Unable to send reset password link'], 400);
+    }
+    public function reset(ResetPasswordRequest $request)
+    {
+        $response = Password::reset($request->only('email', 'password', 'password_confirmation', 'token'), function ($user, $password) {
+            $user->forceFill([
+                'password' => bcrypt($password),
+                'remember_token' => Str::random(60),
+            ])->save();
+        });
+
+        return $response == Password::PASSWORD_RESET
+            ? response()->json(['message' => 'Password reset successfully'], 200)
+            : response()->json(['message' => 'Unable to reset password'], 400);
     }
 }
