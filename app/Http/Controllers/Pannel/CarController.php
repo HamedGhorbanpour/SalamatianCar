@@ -55,8 +55,6 @@ class CarController extends Controller
     public function update(UpdateCarRequest $request, string $id)
     {
         $car = Car::findOrfail($id);
-        $allows = Gate::allows('update' , $car);
-        if ($allows) {
             $car->fill($request->only([
                 'model' , 'kind' , 'price' , 'lowest-down-payment' , 'brand_id'
             ]));
@@ -65,11 +63,6 @@ class CarController extends Controller
                 'message' => 'Car With ID:' . $id . ' Updated Successfully' ,
                 'data' => $car
             ], 200);
-        } else {
-            return response()->json([
-                'message' => 'You dont have permission'
-            ]);
-        }
     }
 
     /**
@@ -78,16 +71,9 @@ class CarController extends Controller
     public function destroy(string $id)
     {
         $car = Car::findOrfail($id);
-        $allows = Gate::allows('delete' , $car);
-        if ($allows){
             $car->delete();
             return response()->json([
                 'message' => 'Car With ID:'.$id.' Deleted Successfully'
             ],200);
-        }else{
-            return response()->json([
-                'message' => 'You dont have permission'
-            ],403);
-        }
     }
 }

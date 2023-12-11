@@ -53,8 +53,6 @@ class BrandController extends Controller
     public function update(UpdateBrandRequest $request, string $id)
     {
         $brand = Brand::findOrfail($id);
-        $allows = Gate::allows('update' , $brand);
-        if ($allows) {
             $brand->fill($request->only([
                 'name'
             ]));
@@ -63,11 +61,6 @@ class BrandController extends Controller
                 'message' => 'Brand With ID:' . $id . ' Updated Successfully' ,
                 'data' => $brand
             ], 200);
-        } else {
-            return response()->json([
-                'message' => 'You dont have permission'
-            ]);
-        }
     }
 
     /**
@@ -76,16 +69,9 @@ class BrandController extends Controller
     public function destroy(string $id)
     {
         $brand = Brand::findOrfail($id);
-        $allows = Gate::allows('delete' , $brand);
-        if ($allows){
             $brand->delete();
             return response()->json([
                 'message' => 'Brand With ID:'.$id.' Deleted Successfully'
             ],200);
-        }else{
-            return response()->json([
-                'message' => 'You dont have permission'
-            ],403);
-        }
     }
 }
