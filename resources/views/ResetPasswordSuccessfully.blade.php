@@ -1,5 +1,3 @@
-# Password Reset Successful
-
 Hello,
 
 This is to notify you that your password has been successfully reset.

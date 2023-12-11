@@ -17,7 +17,8 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::namespace('App\Http\Controllers\Pannel')->middleware('auth:sanctum')->group(function($router) {
+// Panel
+Route::namespace('App\Http\Controllers\Panel')->middleware('auth:sanctum')->group(function($router) {
     // Cars
     Route::prefix('/cars')->controller('CarController')->group(function (){
         Route::get('/','index');
@@ -35,12 +36,22 @@ Route::namespace('App\Http\Controllers\Pannel')->middleware('auth:sanctum')->gro
         Route::delete('/{brand}','destroy');
     });
 });
+// Auth
 Route::namespace('App\Http\Controllers')->group(function ($router) {
     Route::prefix('/auth')->controller('AuthController')->group(function (){
-        Route::post('/register', 'register');
         Route::post('/login', 'login');
         Route::post('/logout', 'logout')->middleware('auth:sanctum');
         Route::post('/forgot-password' ,'forget')->name('password.forgot');
         Route::patch('/reset-password' ,'reset')->name('password.reset');
+    });
+});
+// User
+Route::namespace('App\Http\Controllers')->group(function ($router) {
+    Route::prefix('/user')->controller('UserController')->group(function (){
+        Route::get('/','index');
+        Route::post('/','store');
+        Route::get('/{user}','show');
+        Route::patch('/{user}','update');
+        Route::delete('/{user}','destroy');
     });
 });

@@ -1,5 +1,3 @@
-# Login Successful
-
 Hello,
 
 This is to notify you that your login was successful.
