@@ -47,7 +47,7 @@ Route::namespace('App\Http\Controllers')->group(function ($router) {
 });
 // User
 Route::namespace('App\Http\Controllers')->group(function ($router) {
-    Route::prefix('/user')->controller('UserController')->group(function (){
+    Route::prefix('/users')->controller('UserController')->group(function (){
         Route::get('/','index');
         Route::post('/','store');
         Route::get('/{user}','show');
