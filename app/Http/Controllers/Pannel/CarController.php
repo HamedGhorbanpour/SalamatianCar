@@ -3,12 +3,10 @@
 namespace App\Http\Controllers\Pannel;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\CarResource;
 use Illuminate\Http\Request;
 use App\Http\Requests\Car\UpdateCarRequest;
 use App\Http\Requests\Car\CreateCarRequest;
 use App\Models\Car;
-use Illuminate\Support\Facades\Gate;
 
 class CarController extends Controller
 {
@@ -32,9 +30,10 @@ class CarController extends Controller
     public function store(CreateCarRequest $request)
     {
         $car = Car::create($request->all() + ['user_id' => auth()->id()]);
+        $car->load('brand');
         return response()->json([
             'message' => 'New Car Created Successfully' ,
-            'data' => new CarResource($car)
+            'data' => $car
         ]);
     }
 
@@ -43,9 +42,9 @@ class CarController extends Controller
      */
     public function show(string $id)
     {
-        $article = Car::with('brand')->findOrfail($id);
+        $car = Car::with('brand')->findOrfail($id);
         return response()->json([
-            'data' => $article
+            'data' => $car
         ]);
     }
 
@@ -54,7 +53,7 @@ class CarController extends Controller
      */
     public function update(UpdateCarRequest $request, string $id)
     {
-        $car = Car::findOrfail($id);
+        $car = Car::with('brand')->findOrfail($id);
             $car->fill($request->only([
                 'model' , 'kind' , 'price' , 'lowest-down-payment' , 'brand_id'
             ]));
