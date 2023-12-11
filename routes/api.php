@@ -35,12 +35,12 @@ Route::namespace('App\Http\Controllers\Pannel')->middleware('auth:sanctum')->gro
         Route::delete('/{brand}','destroy');
     });
 });
-Route::namespace('App\Http\Controllers')->middleware('auth:sanctum')->group(function ($router) {
+Route::namespace('App\Http\Controllers')->group(function ($router) {
     Route::prefix('/auth')->controller('AuthController')->group(function (){
         Route::post('/register', 'register');
         Route::post('/login', 'login');
-        Route::post('/logout', 'logout');
-        Route::post('/forgot-password' ,'forget')->name('password.forgot');;
+        Route::post('/logout', 'logout')->middleware('auth:sanctum');
+        Route::post('/forgot-password' ,'forget')->name('password.forgot');
         Route::patch('/reset-password' ,'reset')->name('password.reset');
     });
 });
