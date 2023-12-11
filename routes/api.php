@@ -17,29 +17,29 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::namespace('App\Http\Controllers\Pannel')->group(function($router) {
+Route::namespace('App\Http\Controllers\Pannel')->middleware('auth:sanctum')->group(function($router) {
     // Cars
     Route::prefix('/cars')->controller('CarController')->group(function (){
         Route::get('/','index');
-        Route::post('/','store')->middleware('auth:sanctum');
+        Route::post('/','store');
         Route::get('/{car}','show');
-        Route::patch('/{car}','update')->middleware('auth:sanctum');
-        Route::delete('/{car}','destroy')->middleware('auth:sanctum');
+        Route::patch('/{car}','update');
+        Route::delete('/{car}','destroy');
     });
     // Brands
     Route::prefix('/brands')->controller('BrandController')->group(function (){
         Route::get('/','index');
-        Route::post('/','store')->middleware('auth:sanctum');
+        Route::post('/','store');
         Route::get('/{brand}','show');
-        Route::patch('/{brand}','update')->middleware('auth:sanctum');
-        Route::delete('/{brand}','destroy')->middleware('auth:sanctum');
+        Route::patch('/{brand}','update');
+        Route::delete('/{brand}','destroy');
     });
 });
-Route::namespace('App\Http\Controllers')->group(function ($router) {
+Route::namespace('App\Http\Controllers')->middleware('auth:sanctum')->group(function ($router) {
     Route::prefix('/auth')->controller('AuthController')->group(function (){
         Route::post('/register', 'register');
         Route::post('/login', 'login');
-        Route::post('/logout', 'logout')->middleware('auth:sanctum');
+        Route::post('/logout', 'logout');
         Route::post('/forgot-password' ,'forget')->name('password.forgot');;
         Route::patch('/reset-password' ,'reset')->name('password.reset');
     });
