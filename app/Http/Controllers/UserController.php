@@ -16,7 +16,7 @@ class UserController extends Controller
     {
         $search = $request->search;
         $perPage = $request->has('perPage') ? $request->perPage : 15;
-        $users = User::with('brand')->when($search, function ($query, $search) {
+        $users = User::when($search, function ($query, $search) {
             return $query->where('name', 'LIKE', "%{$search}%")
                 ->orWhere('email', 'LIKE', "%{$search}%");
         })->paginate($perPage);

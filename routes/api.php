@@ -14,9 +14,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
 // Panel
 Route::namespace('App\Http\Controllers\Panel')->middleware('auth:sanctum')->group(function($router) {
     // Cars
@@ -46,7 +43,7 @@ Route::namespace('App\Http\Controllers')->group(function ($router) {
     });
 });
 // User
-Route::namespace('App\Http\Controllers')->group(function ($router) {
+Route::namespace('App\Http\Controllers')->middleware('auth:sanctum')->group(function ($router) {
     Route::prefix('/users')->controller('UserController')->group(function (){
         Route::get('/','index');
         Route::post('/','store');
