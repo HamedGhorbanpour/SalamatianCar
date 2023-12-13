@@ -29,9 +29,9 @@ class BrandController extends Controller
     {
         $brand = Brand::create($request->all() + ['user_id' => auth()->id()]);
         return response()->json([
-            'message' => 'برند با موفقیت اضافه شد' ,
+            'message' => 'برند جدید اضافه شد' ,
             'data' => $brand
-        ]);
+        ],201);
     }
 
     /**
@@ -54,7 +54,7 @@ class BrandController extends Controller
             $brand->fill($request->only(['name']));
             $brand->save();
             return response()->json([
-                'message' => 'برند با موفقیت بروزرسانی شد' ,
+                'message' => 'اطلاعات برند با موفقیت بروزرسانی شد' ,
                 'data' => $brand
             ], 200);
     }

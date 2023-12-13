@@ -32,9 +32,9 @@ class CarController extends Controller
         $car = Car::create($request->all() + ['user_id' => auth()->id()]);
         $car->load('brand');
         return response()->json([
-            'message' => 'New Car Created Successfully' ,
+            'message' => 'محصول جدید اضافه شد' ,
             'data' => $car
-        ]);
+        ],201);
     }
 
     /**
@@ -59,7 +59,7 @@ class CarController extends Controller
             ]));
             $car->save();
             return response()->json([
-                'message' => 'Car With ID:' . $id . ' Updated Successfully' ,
+                'message' => 'اطلاعات محصول با موفقیت بروزرسانی شد' ,
                 'data' => $car
             ], 200);
     }
@@ -72,7 +72,7 @@ class CarController extends Controller
         $car = Car::findOrfail($id);
             $car->delete();
             return response()->json([
-                'message' => 'Car With ID:'.$id.' Deleted Successfully'
+                'message' => 'محصول با موفقیت حذف شد'
             ],200);
     }
 }

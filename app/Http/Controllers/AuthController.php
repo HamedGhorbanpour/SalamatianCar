@@ -26,25 +26,25 @@ class AuthController extends Controller
             $api_token = $user->createToken('login_token')->plainTextToken;
             Mail::to($request->email)->send(new  LoginUserSuccessfully());
             return response([
-                'message' => 'You successfully Logged In.',
+                'message' => 'ورود موفق - خوش آمدید',
                 'user' => auth()->user() ,
                 'token' => $api_token
-            ]);
+            ],200);
         }
     }
     public function logout(Request $request)
     {
         $request->user()->currentAccessToken()->delete();
         return response()->json([
-            'message' => 'User Successfully Logged Out.'
+            'message' => 'خروج موفق'
         ],200);
     }
     public function forget(ForgotPasswordRequest $request)
     {
         $response = Password::sendResetLink($request->only('email'));
         return $response == Password::RESET_LINK_SENT
-            ? response()->json(['message' => 'Reset password link sent to your email'], 200)
-            : response()->json(['message' => 'Unable to send reset password link'], 400);
+            ? response()->json(['message' => 'لینک بازیابی رمزعبور به ایمیل شما ارسال شد'], 200)
+            : response()->json(['message' => 'مشکلی در ارسال لینک پیش آمده'], 400);
     }
     public function reset(ResetPasswordRequest $request)
     {
@@ -57,9 +57,9 @@ class AuthController extends Controller
         if ($response == Password::PASSWORD_RESET) {
             $user = User::where('email', $request->email)->first();
             Mail::to($user->email)->send(new ResetPasswordSuccessfully());
-            return response()->json(['message' => 'Password reset successfully'], 200);
+            return response()->json(['message' => 'رمزعبود با موفقیت بروزرسانی شد'], 200);
         } else {
-            return response()->json(['message' => 'Unable to reset password'], 400);
+            return response()->json(['message' => 'بازنشانی رمزعبور ممکن نیست'], 400);
         }
     }
 }

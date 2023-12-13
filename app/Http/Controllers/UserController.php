@@ -30,9 +30,9 @@ class UserController extends Controller
     {
         $users = User::create($request->all());
         return response()->json([
-            'message' => 'کاربر با موفقیت اضافه شد' ,
+            'message' => 'کاربر جدید اضافه شد' ,
             'data' => $users
-        ]);
+        ],201);
     }
 
     /**
@@ -55,7 +55,7 @@ class UserController extends Controller
         $users->save();
         return response()->json([
             'message' => 'اطلاعات کاربر با موفقیت بروزرسانی شد'
-        ]);
+        ],200);
     }
 
     /**
@@ -67,6 +67,6 @@ class UserController extends Controller
         $users->delete();
         return response()->json([
             'message' => 'کاربر با موفقیت حذف شد'
-        ]);
+        ],200);
     }
 }
