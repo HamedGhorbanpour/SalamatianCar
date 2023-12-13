@@ -30,7 +30,7 @@ class UserController extends Controller
     {
         $users = User::create($request->all());
         return response()->json([
-            'message' => 'User Created Successfully' ,
+            'message' => 'کاربر با موفقیت اضافه شد' ,
             'data' => $users
         ]);
     }
@@ -54,7 +54,7 @@ class UserController extends Controller
         $users = User::findOrFail($id);
         $users->save();
         return response()->json([
-            'message' => 'User With ID:'.$id.' Updated Successfully'
+            'message' => 'اطلاعات کاربر با موفقیت بروزرسانی شد'
         ]);
     }
 
@@ -66,7 +66,7 @@ class UserController extends Controller
         $users = User::findOrFail($id);
         $users->delete();
         return response()->json([
-            'message' => 'User With ID:'.$id.' Deleted Successfully'
+            'message' => 'کاربر با موفقیت حذف شد'
         ]);
     }
 }
