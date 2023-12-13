@@ -29,7 +29,7 @@ class BrandController extends Controller
     {
         $brand = Brand::create($request->all() + ['user_id' => auth()->id()]);
         return response()->json([
-            'message' => 'New brand Created Successfully' ,
+            'message' => 'برند با موفقیت اضافه شد' ,
             'data' => $brand
         ]);
     }
@@ -54,7 +54,7 @@ class BrandController extends Controller
             $brand->fill($request->only(['name']));
             $brand->save();
             return response()->json([
-                'message' => 'Brand With ID:' . $id . ' Updated Successfully' ,
+                'message' => 'برند با موفقیت بروزرسانی شد' ,
                 'data' => $brand
             ], 200);
     }
@@ -67,7 +67,7 @@ class BrandController extends Controller
         $brand = Brand::findOrfail($id);
             $brand->delete();
             return response()->json([
-                'message' => 'Brand With ID:'.$id.' Deleted Successfully'
+                'message' => 'برند با موفقیت حذف شد'
             ],200);
     }
 }
