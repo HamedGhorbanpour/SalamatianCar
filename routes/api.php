@@ -51,8 +51,8 @@ Route::namespace('App\Http\Controllers\Panel')
 // Auth
 Route::namespace('App\Http\Controllers')->group(function ($router) {
     Route::prefix('/auth')->controller('AuthController')->group(function (){
-        Route::post('/login', 'login');
-        Route::post('/logout', 'logout')->middleware('auth:sanctum');
+        Route::post('/login', 'login')->name('login');
+        Route::post('/logout', 'logout')->middleware('auth:sanctum')->name('logout');
         Route::post('/forgot-password' ,'forget')->name('password.forgot');
         Route::patch('/reset-password' ,'reset')->name('password.reset');
     });
