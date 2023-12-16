@@ -18,8 +18,7 @@ class CarController extends Controller
         $search = $request->search;
         $perPage = $request->has('perPage') ? $request->perPage : 15;
         $cars = Car::with('brand')->when($search, function ($query, $search) {
-            return $query->where('model', 'LIKE', "%{$search}%")
-                ->orWhere('kind', 'LIKE', "%{$search}%");
+            return $query->where('model', 'LIKE', "%{$search}%");
         })->paginate($perPage);
         return response()->json($cars);
     }
@@ -34,7 +33,7 @@ class CarController extends Controller
         return response()->json([
             'message' => 'محصول جدید اضافه شد' ,
             'data' => $car
-        ],201);
+        ],200);
     }
 
     /**
@@ -42,9 +41,9 @@ class CarController extends Controller
      */
     public function show(string $id)
     {
-        $car = Car::with('brand')->findOrfail($id);
+        $cars = Car::with('brand')->findOrfail($id);
         return response()->json([
-            'data' => $car
+            'data' => $cars
         ]);
     }
 
@@ -53,14 +52,14 @@ class CarController extends Controller
      */
     public function update(UpdateCarRequest $request, string $id)
     {
-        $car = Car::with('brand')->findOrfail($id);
-            $car->fill($request->only([
-                'model' , 'kind' , 'price' , 'lowest-down-payment' , 'brand_id'
+        $cars = Car::with('brand')->findOrfail($id);
+            $cars->fill($request->only([
+                'model' , 'price' , 'lowest_down_payment' , 'brand_id' , 'exist'
             ]));
-            $car->save();
+            $cars->save();
             return response()->json([
                 'message' => 'اطلاعات محصول با موفقیت بروزرسانی شد' ,
-                'data' => $car
+                'data' => $cars
             ], 200);
     }
 
@@ -69,10 +68,11 @@ class CarController extends Controller
      */
     public function destroy(string $id)
     {
-        $car = Car::findOrfail($id);
-            $car->delete();
+        $cars = Car::findOrfail($id);
+            $cars->delete();
             return response()->json([
-                'message' => 'محصول با موفقیت حذف شد'
+                'message' => 'محصول با موفقیت حذف شد' ,
+                'data' => $cars
             ],200);
     }
 }

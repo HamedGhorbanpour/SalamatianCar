@@ -22,12 +22,11 @@ class CreateCarRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'model' => 'required|string|max:250' ,
-            'kind' => 'required|string|max:250' ,
+            'model' => 'required|string|unique:cars|max:250' ,
             'price' => 'required|numeric' ,
             'lowest_down_payment' => 'required|numeric|between:0,100' ,
             'brand_id' => 'required|integer|exists:brands,id' ,
-            'user_id' => 'integer|exists:users,id'
+            'user_id' => 'integer|exists:users,id' ,
         ];
     }
 }

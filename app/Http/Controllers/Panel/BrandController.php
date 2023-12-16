@@ -27,11 +27,12 @@ class BrandController extends Controller
      */
     public function store(CreateBrandRequest $request)
     {
-        $brand = Brand::create($request->all() + ['user_id' => auth()->id()]);
+        $brand = Brand::create($request->all() + ['user_id' => auth()->id()]
+        );
         return response()->json([
             'message' => 'برند جدید اضافه شد' ,
             'data' => $brand
-        ],201);
+        ],200);
     }
 
     /**
@@ -67,7 +68,8 @@ class BrandController extends Controller
         $brand = Brand::findOrfail($id);
             $brand->delete();
             return response()->json([
-                'message' => 'برند با موفقیت حذف شد'
+                'message' => 'برند با موفقیت حذف شد' ,
+                'data' => $brand
             ],200);
     }
 }

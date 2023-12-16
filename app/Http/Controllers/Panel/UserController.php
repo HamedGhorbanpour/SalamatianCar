@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Panel;
 
-use Illuminate\Http\Request;
-use App\Models\User;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\User\CreateUserRequest;
 use App\Http\Requests\User\UpdateUserRequest;
+use App\Models\User;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
@@ -41,9 +42,7 @@ class UserController extends Controller
     public function show(string $id)
     {
         $users = User::findOrFail($id);
-        return response()->json([
-            'user' => $users
-        ]);
+        return response()->json($users);
     }
 
     /**
@@ -52,9 +51,13 @@ class UserController extends Controller
     public function update(UpdateUserRequest $request, string $id)
     {
         $users = User::findOrFail($id);
+        $users->fill($request->only([
+            'name' , 'email'
+        ]));
         $users->save();
         return response()->json([
-            'message' => 'اطلاعات کاربر با موفقیت بروزرسانی شد'
+            'message' => 'اطلاعات کاربر با موفقیت بروزرسانی شد' ,
+            'data' => $users
         ],200);
     }
 
@@ -66,7 +69,8 @@ class UserController extends Controller
         $users = User::findOrFail($id);
         $users->delete();
         return response()->json([
-            'message' => 'کاربر با موفقیت حذف شد'
+            'message' => 'کاربر با موفقیت حذف شد' ,
+            'data' => $users
         ],200);
     }
 }

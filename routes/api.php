@@ -15,7 +15,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 // Panel
-Route::namespace('App\Http\Controllers\Panel')->middleware('auth:sanctum')->group(function($router) {
+Route::namespace('App\Http\Controllers\Panel')
+    ->middleware('auth:sanctum')
+    ->group(function($router) {
     // Cars
     Route::prefix('/cars')->controller('CarController')->group(function (){
         Route::get('/','index');
@@ -32,6 +34,19 @@ Route::namespace('App\Http\Controllers\Panel')->middleware('auth:sanctum')->grou
         Route::patch('/{brand}','update');
         Route::delete('/{brand}','destroy');
     });
+    // Users
+    Route::prefix('/users')->controller('UserController')->group(function (){
+        Route::get('/','index');
+        Route::post('/','store');
+        Route::get('/{user}','show');
+        Route::patch('/{user}','update');
+        Route::delete('/{user}','destroy');
+    });
+    // Taxes & Benefits
+    Route::prefix('/percents')->controller('PercentController')->group(function (){
+        Route::get('/','index');
+        Route::patch('/','update');
+    });
 });
 // Auth
 Route::namespace('App\Http\Controllers')->group(function ($router) {
@@ -40,15 +55,5 @@ Route::namespace('App\Http\Controllers')->group(function ($router) {
         Route::post('/logout', 'logout')->middleware('auth:sanctum');
         Route::post('/forgot-password' ,'forget')->name('password.forgot');
         Route::patch('/reset-password' ,'reset')->name('password.reset');
-    });
-});
-// User
-Route::namespace('App\Http\Controllers')->middleware('auth:sanctum')->group(function ($router) {
-    Route::prefix('/users')->controller('UserController')->group(function (){
-        Route::get('/','index');
-        Route::post('/','store');
-        Route::get('/{user}','show');
-        Route::patch('/{user}','update');
-        Route::delete('/{user}','destroy');
     });
 });

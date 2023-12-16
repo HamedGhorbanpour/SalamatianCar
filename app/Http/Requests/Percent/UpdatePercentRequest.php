@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\User;
+namespace App\Http\Requests\Percent;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateUserRequest extends FormRequest
+class UpdatePercentRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,8 +22,8 @@ class UpdateUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'filled|max:55',
-            'email' => 'email|filled|unique:users',
+            'benefit' => 'filled|numeric|between:0,100' ,
+            'tax' => 'filled|numeric|between:0,100' ,
         ];
     }
 }

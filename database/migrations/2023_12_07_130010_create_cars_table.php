@@ -14,13 +14,13 @@ return new class extends Migration
         Schema::create('cars', function (Blueprint $table) {
             $table->id();
             $table->string('model');
-            $table->string('kind');
             $table->bigInteger('price');
             $table->integer('lowest_down_payment');
             $table->unsignedBigInteger('brand_id');
             $table->foreign('brand_id')->references('id')->on('brands')->onDelete('cascade');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->boolean('exist')->default(true);
             $table->timestamps();
         });
     }
