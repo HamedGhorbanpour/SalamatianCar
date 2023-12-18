@@ -24,7 +24,7 @@ class AuthController extends Controller
         else {
             $user = Auth::user();
             $api_token = $user->createToken('login_token')->plainTextToken;
-            Mail::to($request->email)->send(new  LoginUserSuccessfully());
+//            Mail::to($request->email)->send(new  LoginUserSuccessfully());
             return response([
                 'message' => 'ورود موفق - خوش آمدید',
                 'user' => auth()->user() ,
