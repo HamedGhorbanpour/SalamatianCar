@@ -14,8 +14,8 @@ class PercentSeeder extends Seeder
     public function run(): void
     {
         Percent::create([
-            'benefit' => '0' ,
-            'tax' => '0'
+            'benefit' => '23' ,
+            'tax' => '9'
         ]);
     }
 }
