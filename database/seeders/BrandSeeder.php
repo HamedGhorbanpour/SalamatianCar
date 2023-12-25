@@ -16,7 +16,8 @@ class BrandSeeder extends Seeder
         Brand::create([
             'name' => 'MVM' ,
             'user_id' => 1 ,
-        ],[
+        ]);
+        Brand::create([
             'name' => 'Fownix' ,
             'user_id' => 1 ,
         ]);
