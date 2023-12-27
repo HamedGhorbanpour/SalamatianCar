@@ -17,19 +17,17 @@ use Illuminate\Support\Facades\Route;
 // Panel
 Route::namespace('App\Http\Controllers\Panel')
     ->middleware('auth:sanctum')
-    ->group(function($router) {
+    ->group(function() {
     // Cars
     Route::prefix('/cars')->controller('CarController')->group(function (){
-        Route::get('/','index');
-        Route::post('/','store');
+        Route::post('/','store',);
         Route::get('/{car}','show');
         Route::patch('/{car}','update');
         Route::delete('/{car}','destroy');
     });
     // Brands
     Route::prefix('/brands')->controller('BrandController')->group(function (){
-        Route::get('/','index');
-        Route::post('/','store');
+        Route::post('/','store',);
         Route::get('/{brand}','show');
         Route::patch('/{brand}','update');
         Route::delete('/{brand}','destroy');
@@ -44,8 +42,18 @@ Route::namespace('App\Http\Controllers\Panel')
     });
     // Taxes & Benefits
     Route::prefix('/percents')->controller('PercentController')->group(function (){
-        Route::get('/','index');
         Route::patch('/','update');
+    });
+});
+Route::namespace('App/Http/Controllers/Panel')->group(function (){
+    Route::prefix('/cars')->controller('CarController')->group(function (){
+        Route::get('/','index',);
+    });
+    Route::prefix('/brands')->controller('BrandController')->group(function (){
+        Route::post('/','index',);
+    });
+    Route::prefix('/percents')->controller('BrandController')->group(function (){
+        Route::get('/','index',);
     });
 });
 // Auth
