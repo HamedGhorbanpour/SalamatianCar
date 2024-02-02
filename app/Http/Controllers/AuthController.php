@@ -19,13 +19,12 @@ class AuthController extends Controller
     public function login(LoginRequest $request)
     {
         if (!auth()->attempt(['email' => $request->email, 'password' => $request->password])) {
-            return response(['message' => 'Invalid credentials']);
+            return response(['message' => 'Invalid credentials'],422);
         } else {
             $user = Auth::user();
             $api_token = $user->createToken('login_token')->plainTextToken;
 //            Mail::to($request->email)->send(new  LoginUserSuccessfully());
             return response([
-                'message' => 'ورود موفق - خوش آمدید',
                 'user' => auth()->user(),
                 'token' => $api_token
             ], 200);

@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\Car\UpdateCarRequest;
 use App\Http\Requests\Car\CreateCarRequest;
+use App\Http\Resources\CarCollection;
+use App\Http\Resources\UserCollection;
 use App\Models\Car;
 
 class CarController extends Controller
@@ -20,7 +22,7 @@ class CarController extends Controller
         $cars = Car::with('brand')->when($search, function ($query, $search) {
             return $query->where('model', 'LIKE', "%{$search}%");
         })->paginate($perPage);
-        return response()->json($cars);
+        return response()->json(new CarCollection($cars));
     }
 
     /**

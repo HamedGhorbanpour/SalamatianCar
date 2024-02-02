@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Brand;
 use App\Http\Requests\Brand\UpdateBrandRequest;
 use App\Http\Requests\Brand\CreateBrandRequest;
+use App\Http\Resources\BrandCollection;
 
 class BrandController extends Controller
 {
@@ -16,10 +17,11 @@ class BrandController extends Controller
     public function index(Request $request)
     {
         $search = $request->search;
-        $perPage = $request->has('perPage') ? $request->perPage : 15;
+        $perPage = $request->has('items_per_page') ? $request->items_per_page : 15;
         $cars = Brand::when($search, function ($query, $search) {
             return $query->where('name', 'LIKE', "%{$search}%");})->paginate($perPage);
-        return response()->json($cars);
+            
+        return response()->json(new BrandCollection($cars));
     }
 
     /**
